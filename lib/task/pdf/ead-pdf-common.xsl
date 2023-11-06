@@ -123,9 +123,189 @@
     <!-- Language code look-up map -->
     <xsl:variable name="languages">
         <languages>
+            <language name="Abkhazian" iso639-1="ab" iso639-2T="abk" iso639-2B="abk" iso639-3="abk"/>
+            <language name="Afar" iso639-1="aa" iso639-2T="aar" iso639-2B="aar" iso639-3="aar"/>
+            <language name="Afrikaans" iso639-1="af" iso639-2T="afr" iso639-2B="afr" iso639-3="afr"/>
+            <language name="Akan" iso639-1="ak" iso639-2T="aka" iso639-2B="aka" iso639-3="aka"/>
+            <language name="Albanian" iso639-1="sq" iso639-2T="sqi" iso639-2B="alb" iso639-3="sqi"/>
+            <language name="Amharic" iso639-1="am" iso639-2T="amh" iso639-2B="amh" iso639-3="amh"/>
+            <language name="Arabic" iso639-1="ar" iso639-2T="ara" iso639-2B="ara" iso639-3="ara"/>
+            <language name="Aragonese" iso639-1="an" iso639-2T="arg" iso639-2B="arg" iso639-3="arg"/>
+            <language name="Armenian" iso639-1="hy" iso639-2T="hye" iso639-2B="arm" iso639-3="hye"/>
+            <language name="Assamese" iso639-1="as" iso639-2T="asm" iso639-2B="asm" iso639-3="asm"/>
+            <language name="Avaric" iso639-1="av" iso639-2T="ava" iso639-2B="ava" iso639-3="ava"/>
+            <language name="Avestan" iso639-1="ae" iso639-2T="ave" iso639-2B="ave" iso639-3="ave"/>
+            <language name="Aymara" iso639-1="ay" iso639-2T="aym" iso639-2B="aym" iso639-3="aym"/>
+            <language name="Azerbaijani" iso639-1="az" iso639-2T="aze" iso639-2B="aze" iso639-3="aze"/>
+            <language name="Bambara" iso639-1="bm" iso639-2T="bam" iso639-2B="bam" iso639-3="bam"/>
+            <language name="Bashkir" iso639-1="ba" iso639-2T="bak" iso639-2B="bak" iso639-3="bak"/>
+            <language name="Basque" iso639-1="eu" iso639-2T="eus" iso639-2B="baq" iso639-3="eus"/>
+            <language name="Belarusian" iso639-1="be" iso639-2T="bel" iso639-2B="bel" iso639-3="bel"/>
+            <language name="Bengali" iso639-1="bn" iso639-2T="ben" iso639-2B="ben" iso639-3="ben"/>
+            <language name="Bislama" iso639-1="bi" iso639-2T="bis" iso639-2B="bis" iso639-3="bis"/>
+            <language name="Bosnian" iso639-1="bs" iso639-2T="bos" iso639-2B="bos" iso639-3="bos"/>
+            <language name="Breton" iso639-1="br" iso639-2T="bre" iso639-2B="bre" iso639-3="bre"/>
+            <language name="Bulgarian" iso639-1="bg" iso639-2T="bul" iso639-2B="bul" iso639-3="bul"/>
+            <language name="Burmese" iso639-1="my" iso639-2T="mya" iso639-2B="bur" iso639-3="mya"/>
+            <language name="Catalan, Valencian" iso639-1="ca" iso639-2T="cat" iso639-2B="cat" iso639-3="cat"/>
+            <language name="Chamorro" iso639-1="ch" iso639-2T="cha" iso639-2B="cha" iso639-3="cha"/>
+            <language name="Chechen" iso639-1="ce" iso639-2T="che" iso639-2B="che" iso639-3="che"/>
+            <language name="Chichewa, Chewa, Nyanja" iso639-1="ny" iso639-2T="nya" iso639-2B="nya" iso639-3="nya"/>
+            <language name="Chinese" iso639-1="zh" iso639-2T="zho" iso639-2B="chi" iso639-3="zho"/>
+            <language name="Church Slavonic, Old Slavonic, Old Church Slavonic" iso639-1="cu" iso639-2T="chu" iso639-2B="chu" iso639-3="chu"/>
+            <language name="Chuvash" iso639-1="cv" iso639-2T="chv" iso639-2B="chv" iso639-3="chv"/>
+            <language name="Cornish" iso639-1="kw" iso639-2T="cor" iso639-2B="cor" iso639-3="cor"/>
+            <language name="Corsican" iso639-1="co" iso639-2T="cos" iso639-2B="cos" iso639-3="cos"/>
+            <language name="Cree" iso639-1="cr" iso639-2T="cre" iso639-2B="cre" iso639-3="cre"/>
+            <language name="Croatian" iso639-1="hr" iso639-2T="hrv" iso639-2B="hrv" iso639-3="hrv"/>
+            <language name="Czech" iso639-1="cs" iso639-2T="ces" iso639-2B="cze" iso639-3="ces"/>
+            <language name="Danish" iso639-1="da" iso639-2T="dan" iso639-2B="dan" iso639-3="dan"/>
+            <language name="Divehi, Dhivehi, Maldivian" iso639-1="dv" iso639-2T="div" iso639-2B="div" iso639-3="div"/>
+            <language name="Dutch, Flemish" iso639-1="nl" iso639-2T="nld" iso639-2B="dut" iso639-3="nld"/>
+            <language name="Dzongkha" iso639-1="dz" iso639-2T="dzo" iso639-2B="dzo" iso639-3="dzo"/>
             <language name="English" iso639-1="en" iso639-2T="eng" iso639-2B="eng" iso639-3="eng"/>
+            <language name="Esperanto" iso639-1="eo" iso639-2T="epo" iso639-2B="epo" iso639-3="epo"/>
+            <language name="Estonian" iso639-1="et" iso639-2T="est" iso639-2B="est" iso639-3="est"/>
+            <language name="Ewe" iso639-1="ee" iso639-2T="ewe" iso639-2B="ewe" iso639-3="ewe"/>
+            <language name="Faroese" iso639-1="fo" iso639-2T="fao" iso639-2B="fao" iso639-3="fao"/>
+            <language name="Fijian" iso639-1="fj" iso639-2T="fij" iso639-2B="fij" iso639-3="fij"/>
+            <language name="Finnish" iso639-1="fi" iso639-2T="fin" iso639-2B="fin" iso639-3="fin"/>
             <language name="French" iso639-1="fr" iso639-2T="fra" iso639-2B="fre" iso639-3="fra"/>
-            <language name="Spanish" iso639-1="es" iso639-2T="spa" iso639-2B="spa" iso639-3="spa"/>
+            <language name="Western Frisian" iso639-1="fy" iso639-2T="fry" iso639-2B="fry" iso639-3="fry"/>
+            <language name="Fulah" iso639-1="ff" iso639-2T="ful" iso639-2B="ful" iso639-3="ful"/>
+            <language name="Gaelic, Scottish Gaelic" iso639-1="gd" iso639-2T="gla" iso639-2B="gla" iso639-3="gla"/>
+            <language name="Galician" iso639-1="gl" iso639-2T="glg" iso639-2B="glg" iso639-3="glg"/>
+            <language name="Ganda" iso639-1="lg" iso639-2T="lug" iso639-2B="lug" iso639-3="lug"/>
+            <language name="Georgian" iso639-1="ka" iso639-2T="kat" iso639-2B="geo" iso639-3="kat"/>
+            <language name="German" iso639-1="de" iso639-2T="deu" iso639-2B="ger" iso639-3="deu"/>
+            <language name="Greek, Modern (1453–)" iso639-1="el" iso639-2T="ell" iso639-2B="gre" iso639-3="ell"/>
+            <language name="Kalaallisut, Greenlandic" iso639-1="kl" iso639-2T="kal" iso639-2B="kal" iso639-3="kal"/>
+            <language name="Guarani" iso639-1="gn" iso639-2T="grn" iso639-2B="grn" iso639-3="grn"/>
+            <language name="Gujarati" iso639-1="gu" iso639-2T="guj" iso639-2B="guj" iso639-3="guj"/>
+            <language name="Haitian, Haitian Creole" iso639-1="ht" iso639-2T="hat" iso639-2B="hat" iso639-3="hat"/>
+            <language name="Hausa" iso639-1="ha" iso639-2T="hau" iso639-2B="hau" iso639-3="hau"/>
+            <language name="Hebrew" iso639-1="he" iso639-2T="heb" iso639-2B="heb" iso639-3="heb"/>
+            <language name="Herero" iso639-1="hz" iso639-2T="her" iso639-2B="her" iso639-3="her"/>
+            <language name="Hindi" iso639-1="hi" iso639-2T="hin" iso639-2B="hin" iso639-3="hin"/>
+            <language name="Hiri Motu" iso639-1="ho" iso639-2T="hmo" iso639-2B="hmo" iso639-3="hmo"/>
+            <language name="Hungarian" iso639-1="hu" iso639-2T="hun" iso639-2B="hun" iso639-3="hun"/>
+            <language name="Icelandic" iso639-1="is" iso639-2T="isl" iso639-2B="ice" iso639-3="isl"/>
+            <language name="Ido" iso639-1="io" iso639-2T="ido" iso639-2B="ido" iso639-3="ido"/>
+            <language name="Igbo" iso639-1="ig" iso639-2T="ibo" iso639-2B="ibo" iso639-3="ibo"/>
+            <language name="Indonesian" iso639-1="id" iso639-2T="ind" iso639-2B="ind" iso639-3="ind"/>
+            <language name="Interlingua (International Auxiliary Language Association)" iso639-1="ia" iso639-2T="ina" iso639-2B="ina" iso639-3="ina"/>
+            <language name="Interlingue, Occidental" iso639-1="ie" iso639-2T="ile" iso639-2B="ile" iso639-3="ile"/>
+            <language name="Inuktitut" iso639-1="iu" iso639-2T="iku" iso639-2B="iku" iso639-3="iku"/>
+            <language name="Inupiaq" iso639-1="ik" iso639-2T="ipk" iso639-2B="ipk" iso639-3="ipk"/>
+            <language name="Irish" iso639-1="ga" iso639-2T="gle" iso639-2B="gle" iso639-3="gle"/>
+            <language name="Italian" iso639-1="it" iso639-2T="ita" iso639-2B="ita" iso639-3="ita"/>
+            <language name="Japanese" iso639-1="ja" iso639-2T="jpn" iso639-2B="jpn" iso639-3="jpn"/>
+            <language name="Javanese" iso639-1="jv" iso639-2T="jav" iso639-2B="jav" iso639-3="jav"/>
+            <language name="Kannada" iso639-1="kn" iso639-2T="kan" iso639-2B="kan" iso639-3="kan"/>
+            <language name="Kanuri" iso639-1="kr" iso639-2T="kau" iso639-2B="kau" iso639-3="kau"/>
+            <language name="Kashmiri" iso639-1="ks" iso639-2T="kas" iso639-2B="kas" iso639-3="kas"/>
+            <language name="Kazakh" iso639-1="kk" iso639-2T="kaz" iso639-2B="kaz" iso639-3="kaz"/>
+            <language name="Central Khmer" iso639-1="km" iso639-2T="khm" iso639-2B="khm" iso639-3="khm"/>
+            <language name="Kikuyu, Gikuyu" iso639-1="ki" iso639-2T="kik" iso639-2B="kik" iso639-3="kik"/>
+            <language name="Kinyarwanda" iso639-1="rw" iso639-2T="kin" iso639-2B="kin" iso639-3="kin"/>
+            <language name="Kirghiz, Kyrgyz" iso639-1="ky" iso639-2T="kir" iso639-2B="kir" iso639-3="kir"/>
+            <language name="Komi" iso639-1="kv" iso639-2T="kom" iso639-2B="kom" iso639-3="kom"/>
+            <language name="Kongo" iso639-1="kg" iso639-2T="kon" iso639-2B="kon" iso639-3="kon"/>
+            <language name="Korean" iso639-1="ko" iso639-2T="kor" iso639-2B="kor" iso639-3="kor"/>
+            <language name="Kuanyama, Kwanyama" iso639-1="kj" iso639-2T="kua" iso639-2B="kua" iso639-3="kua"/>
+            <language name="Kurdish" iso639-1="ku" iso639-2T="kur" iso639-2B="kur" iso639-3="kur"/>
+            <language name="Lao" iso639-1="lo" iso639-2T="lao" iso639-2B="lao" iso639-3="lao"/>
+            <language name="Latin" iso639-1="la" iso639-2T="lat" iso639-2B="lat" iso639-3="lat"/>
+            <language name="Latvian" iso639-1="lv" iso639-2T="lav" iso639-2B="lav" iso639-3="lav"/>
+            <language name="Limburgan, Limburger, Limburgish" iso639-1="li" iso639-2T="lim" iso639-2B="lim" iso639-3="lim"/>
+            <language name="Lingala" iso639-1="ln" iso639-2T="lin" iso639-2B="lin" iso639-3="lin"/>
+            <language name="Lithuanian" iso639-1="lt" iso639-2T="lit" iso639-2B="lit" iso639-3="lit"/>
+            <language name="Luba-Katanga" iso639-1="lu" iso639-2T="lub" iso639-2B="lub" iso639-3="lub"/>
+            <language name="Luxembourgish, Letzeburgesch" iso639-1="lb" iso639-2T="ltz" iso639-2B="ltz" iso639-3="ltz"/>
+            <language name="Macedonian" iso639-1="mk" iso639-2T="mkd" iso639-2B="mac" iso639-3="mkd"/>
+            <language name="Malagasy" iso639-1="mg" iso639-2T="mlg" iso639-2B="mlg" iso639-3="mlg"/>
+            <language name="Malay" iso639-1="ms" iso639-2T="msa" iso639-2B="may" iso639-3="msa"/>
+            <language name="Malayalam" iso639-1="ml" iso639-2T="mal" iso639-2B="mal" iso639-3="mal"/>
+            <language name="Maltese" iso639-1="mt" iso639-2T="mlt" iso639-2B="mlt" iso639-3="mlt"/>
+            <language name="Manx" iso639-1="gv" iso639-2T="glv" iso639-2B="glv" iso639-3="glv"/>
+            <language name="Maori" iso639-1="mi" iso639-2T="mri" iso639-2B="mao" iso639-3="mri"/>
+            <language name="Marathi" iso639-1="mr" iso639-2T="mar" iso639-2B="mar" iso639-3="mar"/>
+            <language name="Marshallese" iso639-1="mh" iso639-2T="mah" iso639-2B="mah" iso639-3="mah"/>
+            <language name="Mongolian" iso639-1="mn" iso639-2T="mon" iso639-2B="mon" iso639-3="mon"/>
+            <language name="Nauru" iso639-1="na" iso639-2T="nau" iso639-2B="nau" iso639-3="nau"/>
+            <language name="Navajo, Navaho" iso639-1="nv" iso639-2T="nav" iso639-2B="nav" iso639-3="nav"/>
+            <language name="North Ndebele" iso639-1="nd" iso639-2T="nde" iso639-2B="nde" iso639-3="nde"/>
+            <language name="South Ndebele" iso639-1="nr" iso639-2T="nbl" iso639-2B="nbl" iso639-3="nbl"/>
+            <language name="Ndonga" iso639-1="ng" iso639-2T="ndo" iso639-2B="ndo" iso639-3="ndo"/>
+            <language name="Nepali" iso639-1="ne" iso639-2T="nep" iso639-2B="nep" iso639-3="nep"/>
+            <language name="Norwegian" iso639-1="no" iso639-2T="nor" iso639-2B="nor" iso639-3="nor"/>
+            <language name="Norwegian Bokmål" iso639-1="nb" iso639-2T="nob" iso639-2B="nob" iso639-3="nob"/>
+            <language name="Norwegian Nynorsk" iso639-1="nn" iso639-2T="nno" iso639-2B="nno" iso639-3="nno"/>
+            <language name="Sichuan Yi, Nuosu" iso639-1="ii" iso639-2T="iii" iso639-2B="iii" iso639-3="iii"/>
+            <language name="Occitan" iso639-1="oc" iso639-2T="oci" iso639-2B="oci" iso639-3="oci"/>
+            <language name="Ojibwa" iso639-1="oj" iso639-2T="oji" iso639-2B="oji" iso639-3="oji"/>
+            <language name="Oriya" iso639-1="or" iso639-2T="ori" iso639-2B="ori" iso639-3="ori"/>
+            <language name="Oromo" iso639-1="om" iso639-2T="orm" iso639-2B="orm" iso639-3="orm"/>
+            <language name="Ossetian, Ossetic" iso639-1="os" iso639-2T="oss" iso639-2B="oss" iso639-3="oss"/>
+            <language name="Pali" iso639-1="pi" iso639-2T="pli" iso639-2B="pli" iso639-3="pli"/>
+            <language name="Pashto, Pushto" iso639-1="ps" iso639-2T="pus" iso639-2B="pus" iso639-3="pus"/>
+            <language name="Persian" iso639-1="fa" iso639-2T="fas" iso639-2B="per" iso639-3="fas"/>
+            <language name="Polish" iso639-1="pl" iso639-2T="pol" iso639-2B="pol" iso639-3="pol"/>
+            <language name="Portuguese" iso639-1="pt" iso639-2T="por" iso639-2B="por" iso639-3="por"/>
+            <language name="Punjabi, Panjabi" iso639-1="pa" iso639-2T="pan" iso639-2B="pan" iso639-3="pan"/>
+            <language name="Quechua" iso639-1="qu" iso639-2T="que" iso639-2B="que" iso639-3="que"/>
+            <language name="Romanian, Moldavian, Moldovan" iso639-1="ro" iso639-2T="ron" iso639-2B="rum" iso639-3="ron"/>
+            <language name="Romansh" iso639-1="rm" iso639-2T="roh" iso639-2B="roh" iso639-3="roh"/>
+            <language name="Rundi" iso639-1="rn" iso639-2T="run" iso639-2B="run" iso639-3="run"/>
+            <language name="Russian" iso639-1="ru" iso639-2T="rus" iso639-2B="rus" iso639-3="rus"/>
+            <language name="Northern Sami" iso639-1="se" iso639-2T="sme" iso639-2B="sme" iso639-3="sme"/>
+            <language name="Samoan" iso639-1="sm" iso639-2T="smo" iso639-2B="smo" iso639-3="smo"/>
+            <language name="Sango" iso639-1="sg" iso639-2T="sag" iso639-2B="sag" iso639-3="sag"/>
+            <language name="Sanskrit" iso639-1="sa" iso639-2T="san" iso639-2B="san" iso639-3="san"/>
+            <language name="Sardinian" iso639-1="sc" iso639-2T="srd" iso639-2B="srd" iso639-3="srd"/>
+            <language name="Serbian" iso639-1="sr" iso639-2T="srp" iso639-2B="srp" iso639-3="srp"/>
+            <language name="Shona" iso639-1="sn" iso639-2T="sna" iso639-2B="sna" iso639-3="sna"/>
+            <language name="Sindhi" iso639-1="sd" iso639-2T="snd" iso639-2B="snd" iso639-3="snd"/>
+            <language name="Sinhala, Sinhalese" iso639-1="si" iso639-2T="sin" iso639-2B="sin" iso639-3="sin"/>
+            <language name="Slovak" iso639-1="sk" iso639-2T="slk" iso639-2B="slo" iso639-3="slk"/>
+            <language name="Slovenian" iso639-1="sl" iso639-2T="slv" iso639-2B="slv" iso639-3="slv"/>
+            <language name="Somali" iso639-1="so" iso639-2T="som" iso639-2B="som" iso639-3="som"/>
+            <language name="Southern Sotho" iso639-1="st" iso639-2T="sot" iso639-2B="sot" iso639-3="sot"/>
+            <language name="Spanish, Castilian" iso639-1="es" iso639-2T="spa" iso639-2B="spa" iso639-3="spa"/>
+            <language name="Sundanese" iso639-1="su" iso639-2T="sun" iso639-2B="sun" iso639-3="sun"/>
+            <language name="Swahili" iso639-1="sw" iso639-2T="swa" iso639-2B="swa" iso639-3="swa"/>
+            <language name="Swati" iso639-1="ss" iso639-2T="ssw" iso639-2B="ssw" iso639-3="ssw"/>
+            <language name="Swedish" iso639-1="sv" iso639-2T="swe" iso639-2B="swe" iso639-3="swe"/>
+            <language name="Tagalog" iso639-1="tl" iso639-2T="tgl" iso639-2B="tgl" iso639-3="tgl"/>
+            <language name="Tahitian" iso639-1="ty" iso639-2T="tah" iso639-2B="tah" iso639-3="tah"/>
+            <language name="Tajik" iso639-1="tg" iso639-2T="tgk" iso639-2B="tgk" iso639-3="tgk"/>
+            <language name="Tamil" iso639-1="ta" iso639-2T="tam" iso639-2B="tam" iso639-3="tam"/>
+            <language name="Tatar" iso639-1="tt" iso639-2T="tat" iso639-2B="tat" iso639-3="tat"/>
+            <language name="Telugu" iso639-1="te" iso639-2T="tel" iso639-2B="tel" iso639-3="tel"/>
+            <language name="Thai" iso639-1="th" iso639-2T="tha" iso639-2B="tha" iso639-3="tha"/>
+            <language name="Tibetan" iso639-1="bo" iso639-2T="bod" iso639-2B="tib" iso639-3="bod"/>
+            <language name="Tigrinya" iso639-1="ti" iso639-2T="tir" iso639-2B="tir" iso639-3="tir"/>
+            <language name="Tonga (Tonga Islands)" iso639-1="to" iso639-2T="ton" iso639-2B="ton" iso639-3="ton"/>
+            <language name="Tsonga" iso639-1="ts" iso639-2T="tso" iso639-2B="tso" iso639-3="tso"/>
+            <language name="Tswana" iso639-1="tn" iso639-2T="tsn" iso639-2B="tsn" iso639-3="tsn"/>
+            <language name="Turkish" iso639-1="tr" iso639-2T="tur" iso639-2B="tur" iso639-3="tur"/>
+            <language name="Turkmen" iso639-1="tk" iso639-2T="tuk" iso639-2B="tuk" iso639-3="tuk"/>
+            <language name="Twi" iso639-1="tw" iso639-2T="twi" iso639-2B="twi" iso639-3="twi"/>
+            <language name="Uighur, Uyghur" iso639-1="ug" iso639-2T="uig" iso639-2B="uig" iso639-3="uig"/>
+            <language name="Ukrainian" iso639-1="uk" iso639-2T="ukr" iso639-2B="ukr" iso639-3="ukr"/>
+            <language name="Urdu" iso639-1="ur" iso639-2T="urd" iso639-2B="urd" iso639-3="urd"/>
+            <language name="Uzbek" iso639-1="uz" iso639-2T="uzb" iso639-2B="uzb" iso639-3="uzb"/>
+            <language name="Venda" iso639-1="ve" iso639-2T="ven" iso639-2B="ven" iso639-3="ven"/>
+            <language name="Vietnamese" iso639-1="vi" iso639-2T="vie" iso639-2B="vie" iso639-3="vie"/>
+            <language name="Volapük" iso639-1="vo" iso639-2T="vol" iso639-2B="vol" iso639-3="vol"/>
+            <language name="Walloon" iso639-1="wa" iso639-2T="wln" iso639-2B="wln" iso639-3="wln"/>
+            <language name="Welsh" iso639-1="cy" iso639-2T="cym" iso639-2B="wel" iso639-3="cym"/>
+            <language name="Wolof" iso639-1="wo" iso639-2T="wol" iso639-2B="wol" iso639-3="wol"/>
+            <language name="Xhosa" iso639-1="xh" iso639-2T="xho" iso639-2B="xho" iso639-3="xho"/>
+            <language name="Yiddish" iso639-1="yi" iso639-2T="yid" iso639-2B="yid" iso639-3="yid"/>
+            <language name="Yoruba" iso639-1="yo" iso639-2T="yor" iso639-2B="yor" iso639-3="yor"/>
+            <language name="Zhuang, Chuang" iso639-1="za" iso639-2T="zha" iso639-2B="zha" iso639-3="zha"/>
+            <language name="Zulu" iso639-1="zu" iso639-2T="zul" iso639-2B="zul" iso639-3="zul"/>
         </languages>
     </xsl:variable>
     <!-- Start main page design and layout -->
