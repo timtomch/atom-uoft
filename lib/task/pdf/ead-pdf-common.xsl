@@ -19,6 +19,7 @@
     <xsl:strip-space elements="*"/>
     <!-- Define keys -->
     <xsl:key name="physlocId" match="ead:physloc" use="@id"/>
+    <xsl:key name="languageCode" match="language" use="@iso639-2T"/>
     <!-- The following attribute sets are reusabe styles used throughout the stylesheet. -->
     <!-- Headings -->
     <xsl:attribute-set name="h1">
@@ -119,9 +120,20 @@
         <xsl:attribute name="border">.5pt solid #000</xsl:attribute>
         <xsl:attribute name="border-collapse">separate</xsl:attribute>
     </xsl:attribute-set>
+    <!-- Language code look-up map -->
+    <xsl:variable name="languages">
+        <languages>
+            <language name="English" iso639-1="en" iso639-2T="eng" iso639-2B="eng" iso639-3="eng"/>
+            <language name="French" iso639-1="fr" iso639-2T="fra" iso639-2B="fre" iso639-3="fra"/>
+            <language name="Spanish" iso639-1="es" iso639-2T="spa" iso639-2B="spa" iso639-3="spa"/>
+        </languages>
+    </xsl:variable>
     <!-- Start main page design and layout -->
     <xsl:template match="/">
         <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" font-size="12pt" font-family="serif">
+            <xsl:attribute name="xml:lang">
+                <xsl:value-of select="key('languageCode', /ead:ead/ead:eadheader/ead:profiledesc/ead:langusage/ead:language/@langcode, $languages)/@iso639-1" />
+            </xsl:attribute>
             <!-- Set up page types and page layouts -->
             <fo:layout-master-set>
                 <!-- Page master for Cover Page -->
@@ -145,6 +157,24 @@
             </fo:layout-master-set>
             <!-- Builds PDF bookmarks for all major sections -->
             <xsl:apply-templates select="/ead:ead/ead:archdesc" mode="bookmarks"/>
+            <!-- Adds document XMP metadata -->
+            <fo:declarations>
+                <pdf:catalog xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf">
+                    <!-- this will replace the window title from filename to below dc:title -->
+                    <pdf:dictionary type="normal" key="ViewerPreferences">
+                        <pdf:boolean key="DisplayDocTitle">true</pdf:boolean>
+                    </pdf:dictionary>
+                </pdf:catalog>
+                <x:xmpmeta xmlns:x="adobe:ns:meta/">
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                        <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/">
+                            <dc:title>
+                                <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt/ead:titleproper" mode="coverPage"/>
+                            </dc:title>
+                        </rdf:Description>
+                    </rdf:RDF>
+                </x:xmpmeta>
+            </fo:declarations>
             <!-- The fo:page-sequence establishes headers, footers and the body of the page.-->
             <!-- Cover page layout -->
             <fo:page-sequence master-reference="cover-page">
@@ -161,13 +191,13 @@
             <!-- Table of Contents layout -->
             <fo:page-sequence master-reference="toc">
                 <!-- Page header -->
-                <fo:static-content flow-name="xsl-region-before" margin-top=".15in">
+                <fo:static-content role="artifact" flow-name="xsl-region-before" margin-top=".15in">
                     <fo:block color="black" font-weight="bold" font-size="16pt" text-align="center">
                         <xsl:apply-templates select="ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt" mode="pageHeader"/>
                     </fo:block>
                 </fo:static-content>
                 <!-- Page footer-->
-                <fo:static-content flow-name="xsl-region-after">
+                <fo:static-content role="artifact" flow-name="xsl-region-after">
                     <fo:block text-align="center" color="gray">
                         <xsl:text>- Page </xsl:text>
                         <fo:page-number/>
@@ -182,7 +212,7 @@
             <!-- All the rest -->
             <fo:page-sequence master-reference="contents">
                 <!-- Page header -->
-                <fo:static-content flow-name="xsl-region-before" margin-top=".15in">
+                <fo:static-content role="artifact" flow-name="xsl-region-before" margin-top=".15in">
                     <fo:block color="black" font-weight="normal" font-size="12pt" text-align="left" text-align-last="justify" border-bottom-style="solid">
                         <xsl:value-of select="//ead:eadid"/>
                         <fo:leader leader-pattern="space"/>
@@ -192,7 +222,7 @@
                     </fo:block>
                 </fo:static-content>
                 <!-- Page footer-->
-                <fo:static-content flow-name="xsl-region-after">
+                <fo:static-content role="artifact" flow-name="xsl-region-after">
                     <fo:block text-align="left" text-align-last="justify" border-top-style="solid">
                         <xsl:apply-templates select="(//ead:repository/ead:corpname)[1]"/>
                         <fo:leader leader-pattern="space"/>
@@ -258,7 +288,7 @@
         <!-- Calls template with links to archive logo -->
         <fo:block border-bottom="1pt solid #666" margin-top="1.5cm" id="cover-page">
             <xsl:call-template name="logo"/>
-            <fo:block xsl:use-attribute-sets="h1">
+            <fo:block role="H1" xsl:use-attribute-sets="h1">
                 Finding Aid -
                 <xsl:apply-templates select="ead:titleproper[1]"/>
                 (<xsl:value-of select="//ead:eadid"/>)
@@ -376,7 +406,7 @@
     <!-- Table of Contents -->
     <xsl:template match="ead:archdesc" mode="toc">
         <fo:block line-height="18pt" margin-top="0.25in">
-            <fo:block xsl:use-attribute-sets="h2" id="toc">Table of contents</fo:block>
+            <fo:block role="H2" xsl:use-attribute-sets="h2" id="toc">Table of contents</fo:block>
             <fo:block xsl:use-attribute-sets="section">
                 <xsl:if test="ead:did">
                     <fo:block text-align-last="justify">
@@ -494,7 +524,7 @@
         <!-- NOTES SECTION -->
         <xsl:if test="ead:accessrestrict | ead:userestrict | ead:custodhist | ead:accruals | ead:did/ead:note | ead:altformavail | ead:acqinfo | ead:processinfo | ead:appraisal | ead:originalsloc | /ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt | /ead:ead/ead:eadheader/ead:revisiondesc">
             <fo:block xsl:use-attribute-sets="section">
-                <fo:block xsl:use-attribute-sets="h2" id="adminInfo">Notes</fo:block>
+                <fo:block role="H2" xsl:use-attribute-sets="h2" id="adminInfo">Notes</fo:block>
                 <!-- Try to handle EAD tags in RAD order... -->
                 <xsl:call-template name="titleNotes"/>
                 <xsl:apply-templates select="ead:phystech"/>
@@ -519,7 +549,7 @@
     <!-- Formats archdesc did -->
     <xsl:template match="ead:archdesc/ead:did">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h2ID">Summary information</fo:block>
+            <fo:block role="H2" xsl:use-attribute-sets="h2ID">Summary information</fo:block>
             <!--
                 Determines the order in which elements from the archdesc did appear,
                 to change the order of appearance change the order of the following
@@ -586,7 +616,7 @@
     <!-- Formats the 'other' notes headings -->
     <xsl:template name="otherNotes">
         <xsl:if test="ead:odd">
-            <fo:block xsl:use-attribute-sets="h3ID">Other notes</fo:block>
+            <fo:block role="H3" xsl:use-attribute-sets="h3ID">Other notes</fo:block>
             <fo:list-block xsl:use-attribute-sets="section">
                 <xsl:for-each select="ead:odd">
                     <xsl:variable name="label" select="local:oddLabel(.)"/>
@@ -641,7 +671,7 @@
     <!-- Formats children of arcdesc not in administrative or related materials sections-->
     <xsl:template match="ead:bibliography | ead:odd | ead:bioghist | ead:scopecontent | ead:fileplan">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h2ID">
+            <fo:block role="H2" xsl:use-attribute-sets="h2ID">
                 <xsl:value-of select="local:tagName(.)"/>
             </fo:block>
             <xsl:apply-templates/>
@@ -650,7 +680,7 @@
     </xsl:template>
     <!-- Formats children of arcdesc in administrative and related materials sections -->
     <xsl:template match="ead:relatedmaterial | ead:separatedmaterial | ead:accessrestrict | ead:userestrict | ead:custodhist | ead:accruals | ead:note | ead:notestmt | ead:altformavail | ead:acqinfo | ead:processinfo | ead:appraisal | ead:originalsloc | ead:phystech | ead:arrangement | ead:otherfindaid">
-        <fo:block xsl:use-attribute-sets="h3ID">
+        <fo:block role="H3" xsl:use-attribute-sets="h3ID">
             <xsl:apply-templates select="." mode="fieldLabel"/>
         </fo:block>
         <fo:block xsl:use-attribute-sets="section">
@@ -684,7 +714,7 @@
     <!-- Templates for revision description -->
     <xsl:template match="ead:revisiondesc">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h3ID">
+            <fo:block role="H3" xsl:use-attribute-sets="h3ID">
                 <xsl:value-of select="local:tagName(.)"/>
             </fo:block>
             <xsl:if test="ead:change/ead:item">
@@ -697,7 +727,7 @@
     <xsl:template match="ead:controlaccess">
         <xsl:if test="child::*">
             <fo:block xsl:use-attribute-sets="section">
-                <fo:block xsl:use-attribute-sets="h2ID">
+                <fo:block role="H2" xsl:use-attribute-sets="h2ID">
                     <xsl:value-of select="local:tagName(.)"/>
                 </fo:block>
                 <fo:list-block xsl:use-attribute-sets="smp">
@@ -729,7 +759,7 @@
     <!-- Formats index and child elements, groups indexentry elements by type (i.e. corpname, subject...) -->
     <xsl:template match="ead:index">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h2ID">
+            <fo:block role="H2" xsl:use-attribute-sets="h2ID">
                 <xsl:value-of select="local:tagName(.)"/>
             </fo:block>
             <xsl:apply-templates select="child::*[not(self::ead:indexentry)]"/>
@@ -755,7 +785,7 @@
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="ead:table/ead:thead">
-        <fo:block xsl:use-attribute-sets="h4ID">
+        <fo:block role="H4" xsl:use-attribute-sets="h4ID">
             <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
@@ -945,7 +975,7 @@
     <xsl:template match="ead:head[parent::*/parent::ead:archdesc]"/>
     <!-- All other headings -->
     <xsl:template match="ead:head">
-        <fo:block xsl:use-attribute-sets="h4" id="{local:buildID(parent::*)}">
+        <fo:block role="H4" xsl:use-attribute-sets="h4" id="{local:buildID(parent::*)}">
             <xsl:apply-templates/>
         </fo:block>
     </xsl:template>

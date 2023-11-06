@@ -22,7 +22,7 @@
 
     <!-- Institution logo on title page -->
     <xsl:template name="logo">
-        <fo:block xsl:use-attribute-sets="h1">
+        <fo:block role="H1" xsl:use-attribute-sets="h1">
             <fo:external-graphic src="{{ app_root }}/images/pdf-logo.png" width="3.5cm" content-width="scale-to-fit" content-height="scale-to-fit"/>
             <xsl:text> </xsl:text>
             <xsl:apply-templates select="(//ead:repository/ead:corpname)[1]"/>
@@ -138,7 +138,7 @@
     <xsl:template match="ead:archdesc/ead:dsc">
         <xsl:if test="*">
             <fo:block xsl:use-attribute-sets="sectionTable">
-                <fo:block xsl:use-attribute-sets="h2ID">
+                <fo:block role="H2" xsl:use-attribute-sets="h2ID">
                     <xsl:value-of select="local:tagName(.)"/>
                 </fo:block>
                 <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt" border-bottom="1pt solid #000" border-top="1pt solid #000" border-left="1pt solid #000" border-right="1pt solid #000" text-align="left" border-after-width.length="1pt" border-after-width.conditionality="retain" border-before-width.length="1pt" border-before-width.conditionality="retain">
@@ -210,7 +210,7 @@
                 <xsl:if test="child::*[@level][1][@level='item' or @level='file' or @level='otherlevel']">
                     <fo:table-row border-top="1px solid #000" border-bottom="1pt solid #000" margin-top="3pt">
                         <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt" number-columns-spanned="4">
-                            <fo:block text-align="center" xsl:use-attribute-sets="h4">
+                            <fo:block role="H4" text-align="center" xsl:use-attribute-sets="h4">
                                 File / item list
                             </fo:block>
                         </fo:table-cell>

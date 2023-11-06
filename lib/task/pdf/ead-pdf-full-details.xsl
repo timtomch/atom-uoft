@@ -22,7 +22,7 @@
 
     <!-- Institution logo on title page -->
     <xsl:template name="logo">
-        <fo:block xsl:use-attribute-sets="h1">
+        <fo:block role="H1" xsl:use-attribute-sets="h1">
             <fo:external-graphic src="{{ app_root }}/images/pdf-logo.png" width="3.5cm" content-width="scale-to-fit" content-height="scale-to-fit"/>
             <xsl:text> </xsl:text>
             <xsl:apply-templates select="(//ead:repository/ead:corpname)[1]"/>
@@ -98,7 +98,7 @@
     <!-- Collection Inventory (dsc) templates -->
     <xsl:template match="ead:archdesc/ead:dsc">
         <fo:block xsl:use-attribute-sets="sectionTable" margin-top="10pt">
-            <fo:block xsl:use-attribute-sets="h2ID">Collection holdings</fo:block>
+            <fo:block role="H2" xsl:use-attribute-sets="h2ID">Collection holdings</fo:block>
             <xsl:apply-templates select="*[not(self::ead:head)]"/>
         </fo:block>
     </xsl:template>
