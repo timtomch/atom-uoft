@@ -741,7 +741,7 @@
                 apply-template statements.
             -->
             <fo:table table-layout="fixed" width="100%">
-                <fo:table-column column-width="2in"/>
+                <fo:table-column xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" fox:header="true" column-width="2in"/>
                 <fo:table-column column-width="5in"/>
                 <fo:table-body>
                     <xsl:call-template name="summaryInfoOtherField">
@@ -990,7 +990,7 @@
         </fo:table>
     </xsl:template>
     <xsl:template match="ead:colspec">
-        <fo:table-column column-width="{@colwidth}"/>
+        <fo:table-column xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" fox:header="true" column-width="{@colwidth}"/>
     </xsl:template>
     <xsl:template match="ead:thead">
         <xsl:apply-templates mode="thead"/>

@@ -144,7 +144,7 @@
                     <xsl:value-of select="local:tagName(.)"/>
                 </fo:block>
                 <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt" border-bottom="1pt solid #000" border-top="1pt solid #000" border-left="1pt solid #000" border-right="1pt solid #000" text-align="left" border-after-width.length="1pt" border-after-width.conditionality="retain" border-before-width.length="1pt" border-before-width.conditionality="retain">
-                    <fo:table-column column-number="1" column-width="1.25in" border-right="1pt solid #000"/>
+                    <fo:table-column xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" fox:header="true" column-number="1" column-width="1.25in" border-right="1pt solid #000"/>
                     <fo:table-column column-number="2" column-width="2.75in"/>
                     <fo:table-column column-number="3" column-width="1.3in"/>
                     <fo:table-column column-number="4" column-width="2.1in"/>
