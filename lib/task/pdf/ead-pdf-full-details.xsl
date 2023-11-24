@@ -22,7 +22,7 @@
 
     <!-- Institution logo on title page -->
     <xsl:template name="logo">
-        <fo:block role="H1" xsl:use-attribute-sets="h1">
+        <fo:block xsl:use-attribute-sets="h1">
             <fo:external-graphic src="{{ app_root }}/images/pdf-logo.png" width="3.5cm" content-width="scale-to-fit" content-height="scale-to-fit"/>
             <xsl:text> </xsl:text>
             <xsl:apply-templates select="(//ead:repository/ead:corpname)[1]"/>
@@ -166,7 +166,7 @@
     </xsl:template>
     <!-- Series titles -->
     <xsl:template match="ead:did" mode="dscSeriesTitle">
-        <fo:block font-weight="bold" font-size="14" margin-bottom="5pt" margin-top="20pt" id="{local:buildID(parent::*)}">
+        <fo:block role="H3" font-weight="bold" font-size="14" margin-bottom="5pt" margin-top="20pt" id="{local:buildID(parent::*)}">
             <xsl:choose>
                 <xsl:when test="../@level='series'">Series: </xsl:when>
                 <xsl:when test="../@level='subseries'">Subseries: </xsl:when>

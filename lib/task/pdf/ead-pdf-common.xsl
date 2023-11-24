@@ -19,7 +19,7 @@
     <xsl:strip-space elements="*"/>
     <!-- Define keys -->
     <xsl:key name="physlocId" match="ead:physloc" use="@id"/>
-    <xsl:key name="languageCode" match="language" use="@iso639-2T"/>
+    <xsl:key name="languageCode" match="language" use="@iso639-2B"/>
     <!-- The following attribute sets are reusabe styles used throughout the stylesheet. -->
     <!-- Headings -->
     <xsl:attribute-set name="h1">
@@ -425,7 +425,7 @@
     <!-- Display Title Notes fields in RAD notes header -->
     <xsl:template name="titleNotes">
         <xsl:if test="ead:odd[starts-with(@type, 'title')]">
-            <fo:block xsl:use-attribute-sets="h3ID">Title notes</fo:block>
+            <fo:block role="H3" xsl:use-attribute-sets="h3ID">Title notes</fo:block>
             <xsl:call-template name="toc"/>
             <fo:block xsl:use-attribute-sets="smp">
                 <fo:list-block>
@@ -489,7 +489,11 @@
     <xsl:template match="ead:publicationstmt" mode="coverPage">
         <fo:block margin="0 0.3in">
             <xsl:apply-templates select="ead:address"/>
-            <xsl:value-of select="//ead:eadid/@url"/>
+            <fo:block>
+                <fo:basic-link external-destination="{//ead:eadid/@url}" xsl:use-attribute-sets="ref">
+                    <xsl:value-of select="//ead:eadid/@url"/>
+                </fo:basic-link>
+            </fo:block>
         </fo:block>
     </xsl:template>
     <xsl:template match="ead:profiledesc/child::*">
@@ -880,6 +884,13 @@
             <xsl:when test="contains(.,'@')">
                 <fo:block>
                     <fo:basic-link external-destination="url('mailto:{.}')" xsl:use-attribute-sets="ref">
+                        <xsl:value-of select="."/>
+                    </fo:basic-link>
+                </fo:block>
+            </xsl:when>
+            <xsl:when test="contains(text(),'https://') or contains(text(),'http://')">
+                <fo:block>
+                    <fo:basic-link external-destination="{.}" xsl:use-attribute-sets="ref">
                         <xsl:value-of select="."/>
                     </fo:basic-link>
                 </fo:block>
