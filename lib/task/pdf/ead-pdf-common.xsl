@@ -335,8 +335,6 @@
                     <fo:region-after extent="0.2in"/>
                 </fo:simple-page-master>
             </fo:layout-master-set>
-            <!-- Builds PDF bookmarks for all major sections -->
-            <xsl:apply-templates select="/ead:ead/ead:archdesc" mode="bookmarks"/>
             <!-- Adds document XMP metadata -->
             <fo:declarations>
                 <pdf:catalog xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf">
@@ -356,6 +354,8 @@
                     </rdf:RDF>
                 </x:xmpmeta>
             </fo:declarations>
+            <!-- Builds PDF bookmarks for all major sections -->
+            <xsl:apply-templates select="/ead:ead/ead:archdesc" mode="bookmarks"/>
             <!-- The fo:page-sequence establishes headers, footers and the body of the page.-->
             <!-- Cover page layout -->
             <fo:page-sequence master-reference="cover-page">
