@@ -22,9 +22,11 @@
 
     <!-- Institution logo on title page -->
     <xsl:template name="logo">
-        <fo:block role="H1" xsl:use-attribute-sets="h1">
-            <fo:external-graphic src="{{ app_root }}/images/pdf-logo.png" width="3.5cm" content-width="scale-to-fit" content-height="scale-to-fit"/>
-            <xsl:text> </xsl:text>
+        <fo:block xsl:use-attribute-sets="h1">
+            <fo:wrapper role="artifact">
+                <fo:external-graphic src="{{ app_root }}/images/pdf-logo.png" width="3.5cm" content-width="scale-to-fit" content-height="scale-to-fit"/>
+                <xsl:text> </xsl:text>
+            </fo:wrapper>
             <xsl:apply-templates select="(//ead:repository/ead:corpname)[1]"/>
         </fo:block>
     </xsl:template>

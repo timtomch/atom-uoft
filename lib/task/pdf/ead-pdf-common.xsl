@@ -350,6 +350,7 @@
                         <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/">
                             <dc:title>
                                 <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt/ead:titleproper" mode="coverPage"/>
+                                <xsl:text> Finding aid</xsl:text>
                             </dc:title>
                         </rdf:Description>
                     </rdf:RDF>
