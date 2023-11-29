@@ -148,10 +148,10 @@
                     <fo:table-column column-number="2" column-width="2.75in"/>
                     <fo:table-column column-number="3" column-width="1.3in"/>
                     <fo:table-column column-number="4" column-width="2.1in"/>
+                    <xsl:if test="child::*[@level][1][@level='item' or @level='file' or @level='otherlevel']">
+                        <xsl:call-template name="tableHeaders"/>
+                    </xsl:if>
                     <fo:table-body start-indent="0in">
-                        <xsl:if test="child::*[@level][1][@level='item' or @level='file' or @level='otherlevel']">
-                            <xsl:call-template name="tableHeaders"/>
-                        </xsl:if>
                         <xsl:apply-templates select="*[not(self::ead:head)]"/>
                     </fo:table-body>
                 </fo:table>
@@ -261,20 +261,22 @@
     </xsl:template>
     <!-- Named template to generate table headers -->
     <xsl:template name="tableHeaders">
-        <fo:table-row background-color="#f7f7f9" padding-left="2pt" margin-left="2pt">
-            <fo:table-cell>
-                <fo:block>Reference code</fo:block>
-            </fo:table-cell>
-            <fo:table-cell>
-                <fo:block>Title</fo:block>
-            </fo:table-cell>
-            <fo:table-cell>
-                <fo:block>Dates</fo:block>
-            </fo:table-cell>
-            <fo:table-cell>
-                <fo:block>Physical description</fo:block>
-            </fo:table-cell>
-        </fo:table-row>
+        <fo:table-header>
+            <fo:table-row background-color="#f7f7f9" padding-left="2pt" margin-left="2pt">
+                <fo:table-cell>
+                    <fo:block>Reference code</fo:block>
+                </fo:table-cell>
+                <fo:table-cell>
+                    <fo:block>Title</fo:block>
+                </fo:table-cell>
+                <fo:table-cell>
+                    <fo:block>Dates</fo:block>
+                </fo:table-cell>
+                <fo:table-cell>
+                    <fo:block>Physical description</fo:block>
+                </fo:table-cell>
+            </fo:table-row>
+        </fo:table-header>
     </xsl:template>
     <!-- Series titles -->
     <xsl:template match="ead:did" mode="dscSeriesTitle">
