@@ -249,7 +249,7 @@
             <!-- Note (ead:note) type labels -->
             <xsl:when test="$node[@type='sourcesDescription']">Sources</xsl:when>
             <xsl:when test="$node[@type='generalNote']">General</xsl:when>
-            <xsl:otherwise><xsl:value-of select="$node[@type]"/></xsl:otherwise>
+            <xsl:otherwise><xsl:value-of select="$node/@type"/></xsl:otherwise>
         </xsl:choose>
     </xsl:function>
     <!-- Lookup ead:odd type labels (except RAD title notes) -->
@@ -280,7 +280,7 @@
             <xsl:when test="$node[@type='titleStatRep']">Statements of responsibility</xsl:when>
             <xsl:when test="$node[@type='titleParallel']">Parallel titles and other title information</xsl:when>
             <xsl:when test="$node[@type='titleSource']">Source of title proper</xsl:when>
-            <xsl:otherwise><xsl:value-of select="$node[@type]"/></xsl:otherwise>
+            <xsl:otherwise><xsl:value-of select="$node/@type"/></xsl:otherwise>
         </xsl:choose>
     </xsl:function>
 
