@@ -263,7 +263,7 @@
     </xsl:template>
     <!-- Named template to generate table headers -->
     <xsl:template name="tableHeaders">
-            <fo:table-row background-color="#f7f7f9" padding-left="2pt" margin-left="2pt">
+            <fo:table-row background-color="#f7f7f9" padding-left="2pt" margin-left="2pt" role="TH">
                 <fo:table-cell>
                     <fo:block>Reference code</fo:block>
                 </fo:table-cell>
