@@ -884,7 +884,7 @@
         <xsl:choose>
             <xsl:when test="contains(.,'@')">
                 <fo:block>
-                    <fo:basic-link external-destination="url('mailto:{.}')" xsl:use-attribute-sets="ref">
+                    <fo:basic-link external-destination="url('mailto:{replace(.,'(.*?)([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})(.*?)','$2')}')" xsl:use-attribute-sets="ref">
                         <xsl:value-of select="."/>
                     </fo:basic-link>
                 </fo:block>
