@@ -226,7 +226,8 @@
                 <fo:table-row border-top="1px solid #000" padding-left="2pt" margin-left="2pt">
                     <fo:table-cell>
                         <fo:block>
-                            <xsl:value-of select="ead:did/ead:unitid"/>
+                            <!-- To prevent long inventory numbers from bleeding across columns, add zero-width space characters to allow text wrap after hyphens -->
+                            <xsl:value-of select="replace(ead:did/ead:unitid,'-','-&#x200b;')"/>
                         </fo:block>
                     </fo:table-cell>
                     <fo:table-cell>
