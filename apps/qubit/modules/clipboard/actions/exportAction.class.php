@@ -28,6 +28,7 @@ class ClipboardExportAction extends DefaultEditAction
         'includeAllLevels',
         'includeDigitalObjects',
         'includeDrafts',
+        'includeNonVisibleElements',
     ];
 
     private $choices = [];
@@ -80,6 +81,19 @@ class ClipboardExportAction extends DefaultEditAction
             $this->digitalObjectsAvailable = true;
         }
 
+        // Determine if there are non-visible elements that should be hidden
+        $this->nonVisibleElementsIncluded = false;
+        $defTemplate = sfConfig::get(('app_default_template_'.strtolower($this->objectType)));
+
+        foreach (sfConfig::getAll() as $setting => $value) {
+            if (
+                (false !== strpos($setting, ('app_element_visibility_'.$defTemplate)))
+                && (0 == sfConfig::get($setting))
+            ) {
+                $this->nonVisibleElementsIncluded = true;
+            }
+        }
+
         // Show export options panel if:
         // information object type
         // or, if actor type and digital objects are on the clipboard
@@ -109,6 +123,13 @@ class ClipboardExportAction extends DefaultEditAction
         $this->draftsIncluded = $this->showOptions
             && $this->context->user->isAuthenticated()
             && 'on' == $request->getParameter('includeDrafts');
+
+        // Get field includeNonVisibleElements if:
+        // options enabled
+        // and, user is authenticated
+        $this->nonVisibleElementsIncluded = $this->showOptions
+        && $this->context->user->isAdministrator()
+        && 'on' == $request->getParameter('includeNonVisibleElements');
 
         parent::execute($request);
 
@@ -160,6 +181,7 @@ class ClipboardExportAction extends DefaultEditAction
             'public' => !$this->draftsIncluded,
             'objectType' => $this->objectType,
             'levels' => $levelsOfDescription,
+            'nonVisibleElementsIncluded' => $this->nonVisibleElementsIncluded,
         ];
 
         $msg = ('xml' == $this->formatType) ? 'XML export' : 'CSV export';
@@ -219,9 +241,7 @@ class ClipboardExportAction extends DefaultEditAction
 
             if (0 == $search->count()) {
                 throw new sfException($this->context->i18n->__(
-                    'No records were exported for your current selection. Please'
-                    .' %open_link%refresh the page and choose different export options'
-                    .' %close_link%.',
+                    'No records were exported for your current selection. Please %open_link%refresh the page and choose different export options %close_link%.',
                     [
                         '%open_link%' => '<a class="alert-link" href="javascript:location.reload();">',
                         '%close_link%' => '</a>',
@@ -249,8 +269,7 @@ class ClipboardExportAction extends DefaultEditAction
 
         if ($this->context->user->isAuthenticated()) {
             $responseData['success'] .= $this->context->i18n->__(
-                'The %open_link%job management page%close_link% will show progress'
-                .' and a download link when complete.',
+                'The %open_link%job management page%close_link% will show progress and a download link when complete.',
                 [
                     '%open_link%' => sprintf(
                         '<strong><a class="alert-link" href="%s">',
@@ -264,8 +283,7 @@ class ClipboardExportAction extends DefaultEditAction
             );
         } else {
             $responseData['success'] .= $this->context->i18n->__(
-                'Please %open_link%refresh the page%close_link% to see progress and'
-                .' a download link when complete.',
+                'Please %open_link%refresh the page%close_link% to see progress and a download link when complete.',
                 [
                     '%open_link%' => '<strong><a class="alert-link" href="javascript:location.reload();">',
                     '%close_link%' => '</a></strong>',
@@ -275,9 +293,7 @@ class ClipboardExportAction extends DefaultEditAction
 
         $responseData['success'] .= '</p><p>';
         $responseData['success'] .= $this->context->i18n->__(
-            '%open_strong_tag%Note:%close_strong_tag% AtoM may remove export'
-            .' packages after aperiod of time to free up storage space. When'
-            .' your export is ready you should download it as soon as possible.',
+            '%open_strong_tag%Note:%close_strong_tag% AtoM may remove export packages after aperiod of time to free up storage space. When your export is ready you should download it as soon as possible.',
             [
                 '%open_strong_tag%' => '<strong>',
                 '%close_strong_tag%' => '</strong>',
@@ -336,8 +352,7 @@ class ClipboardExportAction extends DefaultEditAction
                     $this->form->setDefault('includeDescendants', false);
 
                     $this->helpMessages[] = __(
-                        'Choosing "Include descendants" will include all lower-level'
-                    .' records beneath those currently on the clipboard in the export.'
+                        'Choosing "Include descendants" will include all lower-level records beneath those currently on the clipboard in the export.'
                     );
                 }
 
@@ -380,12 +395,7 @@ class ClipboardExportAction extends DefaultEditAction
                                 'Select levels of descendant descriptions for inclusion'
                             ),
                             'help' => __(
-                                'If no levels are selected, the export will fail. You can use'
-                                .' the control (Mac ⌘) and/or shift keys to multi-select'
-                                .' values from the Levels of description menu. It is necessary'
-                                .' to include the level(s) above the desired export level, up'
-                                .' to and including the level contained in the clipboard.'
-                                .' Otherwise, no records will be included in the export.'
+                                'If no levels are selected, the export will fail. You can use the control (Mac ⌘) and/or shift keys to multi-select values from the Levels of description menu. It is necessary to include the level(s) above the desired export level, up to and including the level contained in the clipboard. Otherwise, no records will be included in the export.'
                             ),
                             'choices' => $this->levelChoices,
                             'multiple' => true,
@@ -401,15 +411,12 @@ class ClipboardExportAction extends DefaultEditAction
                 if ($this->digitalObjectsAvailable) {
                     if ('informationObject' == $this->objectType) {
                         $this->helpMessages[] = __(
-                            'It is not possible to select both digital objects and'
-                            .' descendants for export at the same time. Digital objects can'
-                            .' only be exported for records that are on the clipboard.'
+                            'It is not possible to select both digital objects and descendants for export at the same time. Digital objects can only be exported for records that are on the clipboard.'
                         );
                     }
 
                     $this->helpMessages[] = __(
-                        'Digital objects with restricted access or copyright will not'
-                        .' be exported.'
+                        'Digital objects with restricted access or copyright will not be exported.'
                     );
 
                     $this->form->setWidget(
@@ -438,12 +445,31 @@ class ClipboardExportAction extends DefaultEditAction
                     );
 
                     $this->helpMessages[] = __(
-                        'Choosing "Include draft records" will include those marked with a'
-                        .' Draft publication status in the export. Note: if you do NOT'
-                        .' choose this option, any descendants of a draft record will also'
-                        .' be excluded, even if they are published.'
+                        'Choosing "Include draft records" will include those marked with a Draft publication status in the export. Note: if you do NOT choose this option, any descendants of a draft record will also be excluded, even if they are published.'
                     );
                     $this->form->setDefault('includeDrafts', true);
+                }
+
+                break;
+            // Enable field includeNonVisibleElements if:
+            // information object type
+            // and, user is authenticated
+            case 'includeNonVisibleElements':
+                if (
+                    'informationObject' == $this->objectType
+                    && $this->context->user->isAdministrator()
+                ) {
+                    $this->form->setWidget(
+                        'includeNonVisibleElements',
+                        new sfWidgetFormInputCheckbox(
+                            ['label' => __('Include non-visible elements')]
+                        )
+                    );
+
+                    $this->helpMessages[] = __(
+                        'Choosing "Include non-visible elements" will include those not marked as Visible Elements.'
+                    );
+                    $this->form->setDefault('includeNonVisibleElements', false);
                 }
 
                 break;

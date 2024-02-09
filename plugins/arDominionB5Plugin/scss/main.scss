@@ -4,8 +4,6 @@
 // Bootstrap required
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
-@import "bootstrap/scss/variables-dark";
-@import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/utilities";
 
@@ -59,6 +57,7 @@
 @import "../../../plugins/sfTranslatePlugin/css/l10n_client";
 
 // Custom
+@import "typography";
 @import "layout";
 @import "buttonsandlinks";
 @import "forms";
