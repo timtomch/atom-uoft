@@ -792,7 +792,7 @@
                 </fo:table-cell>
                 <fo:table-cell padding-bottom="2pt">
                     <fo:block>
-                        <xsl:value-of select="($path)[1]"/>
+                        <xsl:apply-templates select="($path)[1]"/>
                     </fo:block>
                 </fo:table-cell>
             </fo:table-row>
