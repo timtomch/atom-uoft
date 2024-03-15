@@ -37,38 +37,38 @@
                 <fo:bookmark-title>
                     <xsl:value-of select="local:tagName(.)"/>
                 </fo:bookmark-title>
+                <!--Creates a submenu for collections, record groups and series and fonds-->
+                <xsl:for-each select="child::*[@level = 'collection'] | child::*[@level = 'recordgrp'] | child::*[@level = 'series'] | child::*[@level = 'fonds']">
+                    <fo:bookmark internal-destination="{local:buildID(.)}">
+                        <fo:bookmark-title>
+                            <xsl:choose>
+                                <xsl:when test="ead:head">
+                                    <xsl:value-of select="child::*/ead:head[1]"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="child::*/ead:unittitle[1]"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </fo:bookmark-title>
+                        <!-- Creates a submenu for subfonds, subgrp or subseries -->
+                        <xsl:for-each select="child::*[@level = 'subfonds'] | child::*[@level = 'subgrp'] | child::*[@level = 'subseries']">
+                            <fo:bookmark internal-destination="{local:buildID(.)}">
+                                <fo:bookmark-title>
+                                    <xsl:choose>
+                                        <xsl:when test="ead:head">
+                                            <xsl:value-of select="child::*/ead:head[1]"/>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of select="child::*/ead:unittitle[1]"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </fo:bookmark-title>
+                            </fo:bookmark>
+                        </xsl:for-each>
+                    </fo:bookmark>
+                </xsl:for-each>
             </fo:bookmark>
         </xsl:if>
-        <!--Creates a submenu for collections, record groups and series and fonds-->
-        <xsl:for-each select="child::*[@level = 'collection'] | child::*[@level = 'recordgrp'] | child::*[@level = 'series'] | child::*[@level = 'fonds']">
-            <fo:bookmark internal-destination="{local:buildID(.)}">
-                <fo:bookmark-title>
-                    <xsl:choose>
-                        <xsl:when test="ead:head">
-                            <xsl:value-of select="child::*/ead:head[1]"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="child::*/ead:unittitle[1]"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </fo:bookmark-title>
-            </fo:bookmark>
-            <!-- Creates a submenu for subfonds, subgrp or subseries -->
-            <xsl:for-each select="child::*[@level = 'subfonds'] | child::*[@level = 'subgrp'] | child::*[@level = 'subseries']">
-                <fo:bookmark internal-destination="{local:buildID(.)}">
-                    <fo:bookmark-title>
-                        <xsl:choose>
-                            <xsl:when test="ead:head">
-                                <xsl:value-of select="child::*/ead:head[1]"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="child::*/ead:unittitle[1]"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </fo:bookmark-title>
-                </fo:bookmark>
-            </xsl:for-each>
-        </xsl:for-each>
     </xsl:template>
     <!-- Build c-level table of contents menu and submenu -->
     <xsl:template match="ead:dsc" mode="toc">

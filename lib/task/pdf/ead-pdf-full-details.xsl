@@ -35,26 +35,26 @@
         <xsl:if test="child::*">
             <fo:bookmark internal-destination="{local:buildID(.)}">
                 <fo:bookmark-title>Collection holdings</fo:bookmark-title>
+                <!--Creates descendants bookmarks-->
+                <!-- if not an item and not a file -->
+                <xsl:for-each select="//ead:c">
+                    <xsl:if test="not(@level = 'item') and not(@level = 'file')">
+                        <fo:bookmark internal-destination="{local:buildID(.)}">
+                            <fo:bookmark-title>
+                                <xsl:choose>
+                                    <xsl:when test="ead:head">
+                                        <xsl:value-of select="child::*/ead:head[1]"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="child::*/ead:unittitle[1]"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </fo:bookmark-title>
+                        </fo:bookmark>
+                    </xsl:if>
+                </xsl:for-each>
             </fo:bookmark>
         </xsl:if>
-        <!--Creates descendants bookmarks-->
-        <!-- if not an item and not a file -->
-        <xsl:for-each select="//ead:c">
-            <xsl:if test="not(@level = 'item') and not(@level = 'file')">
-                <fo:bookmark internal-destination="{local:buildID(.)}">
-                    <fo:bookmark-title>
-                        <xsl:choose>
-                            <xsl:when test="ead:head">
-                                <xsl:value-of select="child::*/ead:head[1]"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="child::*/ead:unittitle[1]"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </fo:bookmark-title>
-                </fo:bookmark>
-            </xsl:if>
-        </xsl:for-each>
     </xsl:template>
     <!-- Build c-level table of contents menu and submenu -->
     <xsl:template match="ead:dsc" mode="toc">
