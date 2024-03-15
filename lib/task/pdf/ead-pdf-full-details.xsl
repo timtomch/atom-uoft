@@ -118,7 +118,7 @@
     <!--This is a named template that processes all the components -->
     <xsl:template name="clevel">
         <xsl:param name="level"/>
-        <fo:block border-bottom="1pt dotted #333">
+        <fo:block border-bottom="1pt dotted #333" keep-together.within-page="always">
             <fo:block margin-left="{($level - 1)*16+4}pt" font-size="10pt" text-align="left">
                 <xsl:apply-templates select="ead:did" mode="dscSeriesTitle"/>
                 <xsl:apply-templates select="ead:did" mode="dscSeries"/>
