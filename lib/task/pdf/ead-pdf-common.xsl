@@ -754,7 +754,7 @@
                     <xsl:apply-templates select="ead:unitdate" mode="overview"/>
                     <xsl:apply-templates select="ead:physdesc" mode="overview"/>
                     <xsl:apply-templates select="ead:container" mode="overview"/>
-                    <xsl:apply-templates select="ead:langmaterial/ead:language" mode="overview"/>
+                    <xsl:apply-templates select="ead:langmaterial" mode="overview"/>
                     <xsl:call-template name="summaryInfoOtherField">
                         <xsl:with-param name="path" select="//ead:processinfo/ead:p/ead:date"/>
                         <xsl:with-param name="label" select="'Dates of creation, revision and deletion'"/>
@@ -766,7 +766,7 @@
         </fo:block>
     </xsl:template>
     <!-- Formats children of arcdesc/did -->
-    <xsl:template match="ead:repository | ead:origination | ead:unittitle | ead:unitdate | ead:unitid | ead:physdesc | ead:container | ead:dao | ead:daogrp | ead:langmaterial | ead:materialspec | ead:abstract | ead:note | ead:langmaterial/ead:language" mode="overview">
+    <xsl:template match="ead:repository | ead:origination | ead:unittitle | ead:unitdate | ead:unitid | ead:physdesc | ead:container | ead:dao | ead:daogrp | ead:materialspec | ead:abstract | ead:note" mode="overview">
         <fo:table-row>
             <fo:table-cell padding-bottom="8pt" padding-right="16pt" text-align="right" font-weight="bold">
                 <fo:block>
@@ -776,6 +776,21 @@
             <fo:table-cell padding-bottom="2pt">
                 <fo:block>
                     <xsl:apply-templates select="." mode="fieldValue"/>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+    </xsl:template>
+    <!-- Format languages list -->
+    <xsl:template match="ead:langmaterial" mode="overview">
+        <fo:table-row>
+            <fo:table-cell padding-bottom="8pt" padding-right="16pt" text-align="right" font-weight="bold">
+                <fo:block>
+                    <xsl:apply-templates select="." mode="fieldLabel"/>:
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell padding-bottom="2pt">
+                <fo:block>
+                    <xsl:value-of select="ead:language" separator=", "/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
