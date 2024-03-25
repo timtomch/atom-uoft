@@ -300,7 +300,7 @@
                         <xsl:text> </xsl:text>
                     </xsl:when>
                 </xsl:choose>
-                <xsl:value-of select="ead:unitid"/>:
+                <xsl:value-of select="ead:unitid[not(@type = 'alternative')]"/>:
             </xsl:if>
             <xsl:apply-templates select="ead:unittitle"/>
         </fo:block>
