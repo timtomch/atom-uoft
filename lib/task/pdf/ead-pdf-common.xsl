@@ -1385,7 +1385,7 @@
         </xsl:choose>
     </xsl:template>
     <xsl:template match="ead:lb">
-        <fo:block/>
+        <fo:block margin-bottom="1mm"/>
     </xsl:template>
     <xsl:template match="ead:blockquote">
         <fo:block margin="4pt 18pt">
