@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:local="http://www.yoursite.org/namespace" xmlns:ead="urn:isbn:1-931666-22-9" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:local="http://www.yoursite.org/namespace" xmlns:ead="urn:isbn:1-931666-22-9" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="2.0" exclude-result-prefixes="ead ns2 local">
     <!--
         *******************************************************************
         *                                                                 *
@@ -814,4 +814,87 @@
             <xsl:otherwise> [Source:<xsl:value-of select="@source"/>]</xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    <!-- 
+        Limited Markdown support.
+        Adapted from https://stackoverflow.com/questions/3549827/converting-simple-markdownstring-to-html-with-xslt#answer-3553327
+    -->
+    <xsl:function name="local:parseMarkdown">
+        <xsl:param name="text"/>
+        <xsl:variable name="vLines" select="tokenize($text, '\n')"/>
+        <xsl:sequence select="local:parse-lines($vLines)"/>
+    </xsl:function>
+
+    <xsl:function name="local:parse-lines">
+        <xsl:param name="pLines"/>
+        <xsl:sequence select="local:parse-line($pLines, 1, count($pLines))"/>
+    </xsl:function>
+
+    <xsl:function name="local:parse-line">
+        <xsl:param name="pLines"/>
+        <xsl:param name="pLineNum"/>
+        <xsl:param name="pTotalLines"/>
+    
+        <xsl:if test="not($pLineNum gt $pTotalLines)">
+            <xsl:variable name="vLine" select="$pLines[$pLineNum]"/>
+            <xsl:variable name="vLineLength" select="string-length($vLine)"/>
+            <xsl:choose>
+                <xsl:when test="starts-with($vLine, '#') and ends-with($vLine, '#')">
+                    <xsl:variable name="vInnerString" select="substring($vLine, 2, $vLineLength -2)"/>
+                    <h1>
+                        <xsl:sequence select="local:parse-string($vInnerString)"/>
+                    </h1>
+                    <xsl:sequence select="local:parse-line($pLines, $pLineNum+1, $pTotalLines)"/>
+                </xsl:when>
+                <xsl:when test="starts-with($vLine, '- ') and not(starts-with($pLines[$pLineNum -1], '- '))">
+                    <ul>
+                        <li>
+                            <xsl:sequence select="local:parse-string(substring($vLine, 2))"/>
+                        </li>
+                        <xsl:sequence select="local:parse-line($pLines, $pLineNum+1, $pTotalLines)"/>
+                    </ul>
+                </xsl:when>
+                <xsl:when test="starts-with($vLine, '- ')">
+                    <li>
+                        <xsl:sequence select="local:parse-string(substring($vLine, 2))"/>
+                    </li>
+                    <xsl:sequence select="local:parse-line($pLines, $pLineNum+1, $pTotalLines)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                        <xsl:sequence select="local:parse-string($vLine)"/>
+                    <xsl:sequence select="local:parse-line($pLines, $pLineNum+1, $pTotalLines)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:if>
+    </xsl:function>
+    <xsl:function name="local:parse-string">
+        <xsl:param name="pS"/>
+        <xsl:analyze-string select="$pS" flags="x" regex='(__|\*\*)(.*?)\1'>
+            <xsl:matching-substring>
+                <xsl:choose>
+                    <xsl:when test="regex-group(1)">
+                        <fo:inline font-weight="bold">
+                            <xsl:sequence select="local:parse-string(regex-group(2))"/>
+                        </fo:inline>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:matching-substring>
+            <xsl:non-matching-substring>
+                <xsl:analyze-string select="$pS" flags="x" regex='(_|\*)(.*?)\1'>
+                    <xsl:matching-substring>
+                        <xsl:choose>
+                            <xsl:when test="regex-group(1)">
+                                <fo:inline font-style="italic">
+                                    <xsl:sequence select="local:parse-string(regex-group(2))"/>
+                                </fo:inline>
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:matching-substring>
+                    <xsl:non-matching-substring>
+                        <xsl:value-of select="."/>
+                    </xsl:non-matching-substring>
+                </xsl:analyze-string>
+            </xsl:non-matching-substring>
+        </xsl:analyze-string>
+    </xsl:function>
 </xsl:stylesheet>
