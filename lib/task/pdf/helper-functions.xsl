@@ -830,6 +830,7 @@
         <xsl:sequence select="local:parse-line($pLines, 1, count($pLines))"/>
     </xsl:function>
 
+    <!-- Parse lines to handle headings and list items -->
     <xsl:function name="local:parse-line">
         <xsl:param name="pLines"/>
         <xsl:param name="pLineNum"/>
@@ -839,25 +840,39 @@
             <xsl:variable name="vLine" select="$pLines[$pLineNum]"/>
             <xsl:variable name="vLineLength" select="string-length($vLine)"/>
             <xsl:choose>
-                <xsl:when test="starts-with($vLine, '#') and ends-with($vLine, '#')">
+                <xsl:when test="starts-with($vLine, '#')">
                     <xsl:variable name="vInnerString" select="substring($vLine, 2, $vLineLength -2)"/>
-                    <h1>
+                    <fo:block font-weight="bold">
                         <xsl:sequence select="local:parse-string($vInnerString)"/>
-                    </h1>
+                    </fo:block>
                     <xsl:sequence select="local:parse-line($pLines, $pLineNum+1, $pTotalLines)"/>
                 </xsl:when>
-                <xsl:when test="starts-with($vLine, '- ') and not(starts-with($pLines[$pLineNum -1], '- '))">
-                    <ul>
-                        <li>
-                            <xsl:sequence select="local:parse-string(substring($vLine, 2))"/>
-                        </li>
+                <xsl:when test="(starts-with($vLine, '- ') or starts-with($vLine, '* ') or starts-with($vLine, '+ ')) and not(starts-with($pLines[$pLineNum -1], '- ')) and not(starts-with($pLines[$pLineNum -1], '* ')) and not(starts-with($pLines[$pLineNum -1], '+ '))">
+                    <fo:list-block>
+                        <fo:list-item>
+                            <fo:list-item-label end-indent="label-end()">
+                                <fo:block>•</fo:block>
+                            </fo:list-item-label>
+                            <fo:list-item-body start-indent="body-start()">
+                                <fo:block>
+                                    <xsl:sequence select="local:parse-string(substring($vLine, 2))"/>
+                                </fo:block>
+                            </fo:list-item-body>
+                        </fo:list-item>
                         <xsl:sequence select="local:parse-line($pLines, $pLineNum+1, $pTotalLines)"/>
-                    </ul>
+                    </fo:list-block>
                 </xsl:when>
-                <xsl:when test="starts-with($vLine, '- ')">
-                    <li>
-                        <xsl:sequence select="local:parse-string(substring($vLine, 2))"/>
-                    </li>
+                <xsl:when test="starts-with($vLine, '- ') or starts-with($vLine, '* ') or starts-with($vLine, '+ ')">
+                    <fo:list-item>
+                        <fo:list-item-label end-indent="label-end()">
+                            <fo:block>•</fo:block>
+                        </fo:list-item-label>
+                        <fo:list-item-body start-indent="body-start()">
+                            <fo:block>
+                                <xsl:sequence select="local:parse-string(substring($vLine, 2))"/>
+                            </fo:block>
+                        </fo:list-item-body>
+                    </fo:list-item>
                     <xsl:sequence select="local:parse-line($pLines, $pLineNum+1, $pTotalLines)"/>
                 </xsl:when>
                 <xsl:otherwise>
@@ -867,33 +882,32 @@
             </xsl:choose>
         </xsl:if>
     </xsl:function>
+    
+    <!-- Parse strings to handle bold and italic text -->
     <xsl:function name="local:parse-string">
         <xsl:param name="pS"/>
-        <xsl:analyze-string select="$pS" flags="x" regex='(__|\*\*)(.*?)\1'>
+        <xsl:analyze-string select="$pS" flags="x" regex='(___|\*\*\*|__|\*\*|_|\*)(.*?)\1'>
             <xsl:matching-substring>
                 <xsl:choose>
-                    <xsl:when test="regex-group(1)">
+                    <xsl:when test="string-length(regex-group(1))=3">
+                        <fo:inline font-style="italic" font-weight="bold">
+                            <xsl:sequence select="local:parse-string(regex-group(2))"/>
+                        </fo:inline>
+                    </xsl:when>
+                    <xsl:when test="string-length(regex-group(1))=2">
                         <fo:inline font-weight="bold">
+                            <xsl:sequence select="local:parse-string(regex-group(2))"/>
+                        </fo:inline>
+                    </xsl:when>
+                    <xsl:when test="string-length(regex-group(1))=1">
+                        <fo:inline font-style="italic">
                             <xsl:sequence select="local:parse-string(regex-group(2))"/>
                         </fo:inline>
                     </xsl:when>
                 </xsl:choose>
             </xsl:matching-substring>
             <xsl:non-matching-substring>
-                <xsl:analyze-string select="$pS" flags="x" regex='(_|\*)(.*?)\1'>
-                    <xsl:matching-substring>
-                        <xsl:choose>
-                            <xsl:when test="regex-group(1)">
-                                <fo:inline font-style="italic">
-                                    <xsl:sequence select="local:parse-string(regex-group(2))"/>
-                                </fo:inline>
-                            </xsl:when>
-                        </xsl:choose>
-                    </xsl:matching-substring>
-                    <xsl:non-matching-substring>
-                        <xsl:value-of select="."/>
-                    </xsl:non-matching-substring>
-                </xsl:analyze-string>
+                <xsl:value-of select="."/>
             </xsl:non-matching-substring>
         </xsl:analyze-string>
     </xsl:function>

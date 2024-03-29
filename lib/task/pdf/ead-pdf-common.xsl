@@ -1306,7 +1306,7 @@
             </xsl:choose>
         </xsl:if>
     </xsl:template>
-    
+    <!-- Run text elements through the Markdown parser -->
     <xsl:template match="text()">
         <xsl:copy-of select="local:parseMarkdown(.)"/>
     </xsl:template>
