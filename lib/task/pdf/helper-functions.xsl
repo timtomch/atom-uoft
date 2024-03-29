@@ -821,8 +821,26 @@
     -->
     <xsl:function name="local:parseMarkdown">
         <xsl:param name="text"/>
-        <xsl:variable name="vLines" select="tokenize($text, '\n')"/>
-        <xsl:sequence select="local:parse-lines($vLines)"/>
+        <xsl:variable name="vParagraphs" select="tokenize($text, '\n\n')"/>
+        <xsl:sequence select="local:parse-paragraphs($vParagraphs)"/>
+    </xsl:function>
+    
+    <xsl:function name="local:parse-paragraphs">
+        <xsl:param name="pParagraphs"/>
+        <xsl:sequence select="local:parse-paragraph($pParagraphs, 1, count($pParagraphs))"/>
+    </xsl:function>
+    
+    <xsl:function name="local:parse-paragraph">
+        <xsl:param name="pParagraphs"/>
+        <xsl:param name="pParagraphNum"/>
+        <xsl:param name="pTotalParagraphs"/>
+        
+        <xsl:if test="not($pParagraphNum gt $pTotalParagraphs)">
+            <xsl:variable name="pParagraph" select="$pParagraphs[$pParagraphNum]"/>
+            <xsl:variable name="vLines" select="tokenize($pParagraph, '\n')"/>
+            <xsl:sequence select="local:parse-lines($vLines)"/>
+            <xsl:sequence select="local:parse-paragraph($pParagraphs, $pParagraphNum+1, $pTotalParagraphs)"/>
+        </xsl:if>
     </xsl:function>
 
     <xsl:function name="local:parse-lines">
@@ -840,6 +858,12 @@
             <xsl:variable name="vLine" select="$pLines[$pLineNum]"/>
             <xsl:variable name="vLineLength" select="string-length($vLine)"/>
             <xsl:choose>
+                <xsl:when test="matches($vLine,'^-+$')">
+                    <fo:block>
+                      <fo:leader leader-pattern="rule" leader-length="100%" rule-thickness="1pt"/>
+                    </fo:block>
+                    <xsl:sequence select="local:parse-line($pLines, $pLineNum+1, $pTotalLines)"/>
+                </xsl:when>
                 <xsl:when test="starts-with($vLine, '#')">
                     <xsl:variable name="vInnerString" select="substring($vLine, 2, $vLineLength -2)"/>
                     <fo:block font-weight="bold">
