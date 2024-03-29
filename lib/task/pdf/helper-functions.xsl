@@ -886,7 +886,7 @@
     <!-- Parse strings to handle bold and italic text -->
     <xsl:function name="local:parse-string">
         <xsl:param name="pS"/>
-        <xsl:analyze-string select="$pS" flags="x" regex='(___|\*\*\*|__|\*\*|_|\*)(.*?)\1'>
+        <xsl:analyze-string select="$pS" flags="x" regex='(___|\*\*\*|__|\*\*|_|\*)(.*?)\1|(\[(.*?)\]\((.*?)\))'>
             <xsl:matching-substring>
                 <xsl:choose>
                     <xsl:when test="string-length(regex-group(1))=3">
@@ -903,6 +903,11 @@
                         <fo:inline font-style="italic">
                             <xsl:sequence select="local:parse-string(regex-group(2))"/>
                         </fo:inline>
+                    </xsl:when>
+                    <xsl:when test="regex-group(3)">
+                        <fo:basic-link external-destination="url({regex-group(5)})" xsl:use-attribute-sets="ref">
+                            <xsl:sequence select="local:parse-string(regex-group(4))"/>
+                        </fo:basic-link>
                     </xsl:when>
                 </xsl:choose>
             </xsl:matching-substring>
