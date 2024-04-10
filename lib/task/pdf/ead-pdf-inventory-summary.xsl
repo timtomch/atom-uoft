@@ -3,15 +3,16 @@
     <!--
         *******************************************************************
         *                                                                 *
-        * VERSION:      2.1.1                                             *
+        * VERSION:      2.1.2                                             *
         *                                                                 *
         * AUTHOR:       Winona Salesky                                    *
         *               wsalesky@gmail.com                                *
         *                                                                 *
         * MODIFIED BY:  mikeg@artefactual.com                             *
         *               david@artefactual.com                             *
+        *               thomas@tgconsulting.ca                            *
         *                                                                 *
-        * DATE:         2022-06-07                                        *
+        * DATE:         2024-04-10                                        *
         *                                                                 *
         *******************************************************************
     -->
@@ -212,7 +213,7 @@
                 </fo:table-row>
                 <!-- Adds column headings if series/subseries is followed by an item -->
                 <xsl:if test="child::*[@level][1][@level='item' or @level='file' or @level='otherlevel']">
-                    <fo:table-row border-top="1px solid #000" border-bottom="1pt solid #000" margin-top="3pt">
+                    <fo:table-row border-top="1px solid #000" border-bottom="1pt solid #000" margin-top="3pt" keep-with-next="always">
                         <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt" number-columns-spanned="4">
                             <fo:block role="H4" text-align="center" xsl:use-attribute-sets="h4">
                                 File / item list
@@ -223,7 +224,7 @@
                 </xsl:if>
             </xsl:when>
             <xsl:otherwise>
-                <fo:table-row border-top="1px solid #000" padding-left="2pt" margin-left="2pt">
+                <fo:table-row border-top="1px solid #000" padding-left="2pt" margin-left="2pt" keep-with-next="always" keep-together.within-page="always">
                     <fo:table-cell>
                         <fo:block>
                             <!-- To prevent long inventory numbers from bleeding across columns, add zero-width space characters to allow text wrap after hyphens -->
@@ -248,7 +249,7 @@
                         </fo:block>
                     </fo:table-cell>
                 </fo:table-row>
-                <fo:table-row padding-left="2pt" margin-left="2pt">
+                <fo:table-row padding-left="2pt" margin-left="2pt" keep-together.within-page="always">
                     <fo:table-cell/>
                     <fo:table-cell number-columns-spanned="3">
                         <fo:block margin-top="6pt">
@@ -266,7 +267,7 @@
     </xsl:template>
     <!-- Named template to generate table headers -->
     <xsl:template name="tableHeaders">
-            <fo:table-row background-color="#f7f7f9" padding-left="2pt" margin-left="2pt" role="TH">
+            <fo:table-row background-color="#f7f7f9" padding-left="2pt" margin-left="2pt" role="TH" keep-with-next="always">
                 <fo:table-cell>
                     <fo:block>Reference code</fo:block>
                 </fo:table-cell>
