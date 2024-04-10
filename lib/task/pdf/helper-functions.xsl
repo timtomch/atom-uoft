@@ -3,15 +3,16 @@
     <!--
         *******************************************************************
         *                                                                 *
-        * VERSION:      2.1.1                                             *
+        * VERSION:      2.1.2                                             *
         *                                                                 *
         * AUTHOR:       Winona Salesky                                    *
         *               wsalesky@gmail.com                                *
         *                                                                 *
         * MODIFIED BY:  mikeg@artefactual.com                             *
         *               david@artefactual.com                             *
+        *               thomas@tgconsulting.ca                            *
         *                                                                 *
-        * DATE:         2022-06-07                                        *
+        * DATE:         2024-04-10                                        *
         *                                                                 *
         * ABOUT:        This file has been created for use with           *
         *               EAD xml files exported from the                   *
