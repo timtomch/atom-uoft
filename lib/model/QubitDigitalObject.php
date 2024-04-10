@@ -1662,18 +1662,6 @@ class QubitDigitalObject extends BaseDigitalObject
     }
 
     /**
-     * Return true if this is a compound digital object.
-     *
-     * @return bool
-     */
-    public function isCompoundObject()
-    {
-        $isCompoundObjectProp = QubitProperty::getOneByObjectIdAndName($this->id, 'is_compound_object');
-
-        return null !== $isCompoundObjectProp && '1' == $isCompoundObjectProp->getValue(['sourceCulture' => true]);
-    }
-
-    /**
      * Derive file path for a digital object asset.
      *
      * All digital object paths are keyed by object id that is the
@@ -2024,7 +2012,7 @@ class QubitDigitalObject extends BaseDigitalObject
 
             $filenameMinusExtension = preg_replace('/\.[a-zA-Z]{2,3}$/', '', $path);
 
-            $command = 'convert -quality 100 ';
+            $command = 'convert -density 300 -alpha remove -quality 100 ';
             $command .= $path;
             $command .= ' '.$filenameMinusExtension.'_%02d.'.self::THUMB_EXTENSION;
             exec($command, $output, $status);
