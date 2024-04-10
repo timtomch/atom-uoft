@@ -114,7 +114,7 @@
             <xsl:when test="$tag = 'custodhist'">Custodial history</xsl:when>
             <xsl:when test="$tag = 'date'">Date</xsl:when>
             <xsl:when test="$tag = 'descgrp'">Description group</xsl:when>
-            <xsl:when test="$tag = 'dsc'">Series descriptions</xsl:when>
+            <xsl:when test="$tag = 'dsc'">Descriptions</xsl:when>
             <xsl:when test="$tag = 'descrules'">Descriptive rules</xsl:when>
             <xsl:when test="$tag = 'dao'">Digital object</xsl:when>
             <xsl:when test="$tag = 'daodesc'">Digital object description</xsl:when>
